@@ -7,7 +7,7 @@ package frc.robot;
 import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
+
 
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean
@@ -21,6 +21,7 @@ public final class Constants {
 
   //Motor constants 
   /*
+  TODO:
    Get CANbus ID values for sparkmax controllers
   */
   public static final int LEFT_FRONT_MOTOR = 0;
@@ -56,7 +57,7 @@ public final class Constants {
   public static final int DRIVER_SHOULDER_BOTTOM_LEFT = 7;
   public static final int DRIVER_SHOULDER_BOTTOM_RIGHT = 8;
   public static final int DRIVER_LEFT_JOYSTICK = 9;
-  public static final int DRIVER_RIGHT_JOYSTICK = 10;
+  //public static final int DRIVER_RIGHT_JOYSTICK = 10; //removed with joystick modification
 
   //drivetrain speed constants
   public static final double DRIVETRAIN_SPEED = 1;
@@ -101,10 +102,11 @@ public final class Constants {
 
     public static final int kEncoderCPR = 42; //updated to reflect NEO Hall-Effect encoders CPR
     public static final double kWheelDiameterMeters = 0.1524; //6" wheel = 0.1524 m
+    public static final double kWheelCircumference = kWheelDiameterMeters * Math.PI;
     public static final double kEncoderDistancePerPulse =
         // Assumes the encoders are directly mounted on the wheel shafts
-        (kWheelDiameterMeters * Math.PI) / (double) kEncoderCPR;
-    public static final double kWheelCircumference = kWheelDiameterMeters * Math.PI;
+        kWheelCircumference / (double) kEncoderCPR;
+
 
     // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
     // These characterization values MUST be determined either experimentally or theoretically
@@ -124,25 +126,4 @@ public final class Constants {
     public static final double kPRearRightVel = 0.5;
   }
 
-  //Potential constants for autonomous meccanum
-  /*
-  TODO:
-  Check these values
-  */
-
-  public static final class AutoConstants {
-    public static final double kMaxSpeedMetersPerSecond = 3;
-    public static final double kMaxAccelerationMetersPerSecondSquared = 3;
-    public static final double kMaxAngularSpeedRadiansPerSecond = Math.PI;
-    public static final double kMaxAngularSpeedRadiansPerSecondSquared = Math.PI;
-
-    public static final double kPXController = 0.5;
-    public static final double kPYController = 0.5;
-    public static final double kPThetaController = 0.5;
-
-    // Constraint for the motion profiled robot angle controller
-    public static final TrapezoidProfile.Constraints kThetaControllerConstraints =
-        new TrapezoidProfile.Constraints(
-            kMaxAngularSpeedRadiansPerSecond, kMaxAngularSpeedRadiansPerSecondSquared);
-  }
 }

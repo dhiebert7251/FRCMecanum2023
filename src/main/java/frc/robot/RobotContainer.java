@@ -27,7 +27,7 @@ public class RobotContainer {
 
   //Joystick declare
     private final XboxController  driverJoystick = new XboxController(Constants.DRIVER_JOYSTICK);
-    private final  XboxController operatorJoystick = new XboxController(Constants.OPERATOR_JOYSTICK);
+  //private final XboxController operatorJoystick = new XboxController(Constants.OPERATOR_JOYSTICK);
 
   //Subsystem declare
     private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
