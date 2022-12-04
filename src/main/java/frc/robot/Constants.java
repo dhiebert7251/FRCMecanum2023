@@ -83,47 +83,89 @@ public final class Constants {
   public static final int OPERATOR_LEFT_JOYSTICK = 9;
   public static final int OPERATOR_RIGHT_JOYSTICK = 10;
 
-  public static final class DriveConstants {
-    /*
-    TODO:
-    update values to actual robot
-    */
-    public static final double kTrackWidth = 0.5;
-    // Distance between centers of right and left wheels on robot in m
-    public static final double kWheelBase = 0.7;
-    // Distance between centers of front and back wheels on robot in m
 
-    public static final MecanumDriveKinematics kDriveKinematics =
-        new MecanumDriveKinematics(
-            new Translation2d(kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(kWheelBase / 2, -kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, kTrackWidth / 2),
-            new Translation2d(-kWheelBase / 2, -kTrackWidth / 2));
-
-    public static final int kEncoderCPR = 42; //updated to reflect NEO Hall-Effect encoders CPR
-    public static final double kWheelDiameterMeters = 0.1524; //6" wheel = 0.1524 m
-    public static final double kWheelCircumference = kWheelDiameterMeters * Math.PI;
-    public static final double kEncoderDistancePerPulse =
-        // Assumes the encoders are directly mounted on the wheel shafts
-        kWheelCircumference / (double) kEncoderCPR;
-
-
-    // These are example values only - DO NOT USE THESE FOR YOUR OWN ROBOT!
-    // These characterization values MUST be determined either experimentally or theoretically
-    // for *your* robot's drive.
-    // The SysId tool provides a convenient method for obtaining these values for your robot.
-    public static final SimpleMotorFeedforward kFeedforward =
-        new SimpleMotorFeedforward(1, 0.8, 0.15);
-
-    /* 
-    TODO:
-    Example value only - as above, this must be tuned for your drive!
-    Set values to be updated through smartdashboard for easier PID tuning
-    */
-    public static final double kPFrontLeftVel = 0.5;
-    public static final double kPRearLeftVel = 0.5;
-    public static final double kPFrontRightVel = 0.5;
-    public static final double kPRearRightVel = 0.5;
+  public final static class Math {
+    /** The mathematical constant pi */
+    public final static double PI = 3.14159;
+    /** Multiply to get from inches to meters */
+    public final static double INCHES_2_METERS = 0.0254000;
+    /** Multiply to get from meters to inches */
+    public final static double METERS_2_INCHES = 39.3701;
   }
 
+    /** Physical chassis measurements and dimensions */
+  public final class ChassisConstants {
+    /** Wheel diameter in meters */
+    public final static double WHEEL_DIAMETER = 6 * Math.INCHES_2_METERS;
+    /** Wheel circumference in meters */
+    public final static double WHEEL_CIRCUM = WHEEL_DIAMETER * Math.PI;
+    /** Width between two wheels (axle length) in meters */
+    //TODO: update
+    public final static double TRACK_WIDTH = 23 * Math.INCHES_2_METERS;
+    /** Width of the robot in meters */
+    public final static double WIDTH = 27 * Math.INCHES_2_METERS;
+    /** Length of the robot in meters */
+    public final static double LENGTH = 32.3 * Math.INCHES_2_METERS; 
+  }
+  
+   /** Configuration options, PID constants, and CAN Bus ID's for {@link frc.robot.subsystems.Drivetrain Drivetrain} subsystem */
+   public final static class DriveConstants {
+    //TODO:  update
+    /** CAN Bus ID of left front drive SparkMAX */
+    public final static int LEFT_FRONT_ID = 48;
+    /** CAN Bus ID of left back drive SparkMAX */
+    public final static int LEFT_BACK_ID = 50;
+    /** CAN Bus ID of right front drive SparkMAX */
+    public final static int RIGHT_FRONT_ID = 49;
+    /** CAN Bus ID of right back drive SparkMAX */
+    public final static int RIGHT_BACK_ID = 51;
+    /** Left front SparkMAX is inverted */
+    public final static boolean LEFT_FRONT_INVERTED = false;
+    /** Left back SparkMAX is inverted */
+    public final static boolean LEFT_BACK_INVERTED = false;
+    /** Right front SparkMAX is inverted */
+    public final static boolean RIGHT_FRONT_INVERTED = true;
+    /** Right back SparkMAX is inverted */
+    public final static boolean RIGHT_BACK_INVERTED = true;
+    /** P constant for SparkMAX onboard PID control */
+    public final static double P = 0.0;
+    /** I constant for SparkMAX onboard PID control */
+    public final static double I = 0.0;
+    /** D constant for SparkMAX onboard PID control */
+    public final static double D = 0.0;
+    /** F constant for SparkMAX onboard PID control */
+    public final static double F = 0.0;
+    /** Max speed of the robot between [0,1] */
+    public final static double MAX_SPEED = 0.75;
+    /** Maximum forward driving velocity in m/s (meters per second). Should
+     * be slightly lower than robot's maximum free speed */
+    public final static double MAX_VELOCITY = 2.0;
+    /** Maximum forward driving acceleration in m/s^2 (meters per second
+     * squared) */
+    public final static double MAX_ACCELERATION = 2.0;
+    /** Maximum rotational velocity in rad/s */
+    public final static double MAX_ROTATION = Math.PI/4.0;
+    /** kS constant with units V (volts) for Drivetrain motor
+     * characterization. See
+     * <a href=https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html">FRC Docs</a>
+     * section on motor characterization for more */
+    public final static double S = 1.48;
+    /** kV constant with units (Vs)/m (volt seconds per meter) for Drivetrain
+     * motor characterization. See
+     * <a href=https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html">FRC Docs</a>
+       * section on motor characterization for more */
+    public final static double V = 2.93;
+    /** kA constant with units (Vs^2)/m (volt seconds squared per meter) for
+     * Drivetrain motor characterization. See
+     * <a href=https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html">FRC Docs</a>
+     * section on motor characterization for more */
+    public final static double A = 0.0313;
+    /** MecanumDriveKinematics object for the Drivetrain */
+    public final static MecanumDriveKinematics KINEMATICS = new MecanumDriveKinematics(
+        new Translation2d(0.381, 0.381),
+        new Translation2d(0.381, -0.381),
+        new Translation2d(-0.381, 0.381),
+        new Translation2d(-0.381, -0.381));
+    }
+    
 }

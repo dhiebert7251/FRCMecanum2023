@@ -4,33 +4,36 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Constants.DriveConstants;
+import frc.robot.Constants.ChassisConstants;
+
+
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 //SparkMAX libraries
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxRelativeEncoder;
+import com.revrobotics.RelativeEncoder;
+
 
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
-import edu.wpi.first.wpilibj.drive.MecanumDrive;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
+
+
 
 //Dashboard libraries
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //Math/kinematics librarys
-
-//import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
-
-/*
-public class MecanumDriveWheelPositions extends kinematics{
-
-}
-*/
 
 
 public class Drivetrain extends SubsystemBase {
@@ -46,14 +49,23 @@ public class Drivetrain extends SubsystemBase {
   //drivetrain type
   MecanumDrive drive;
 
+  //odometry
+  MecanumDriveOdometry driveOdometry;
+  
   //sensors
   Gyro gyro;
 
+  RelativeEncoder leftFrontMotorEncoder;
+  RelativeEncoder rightFrontMotorEncoder;
+  RelativeEncoder leftRearMotorEncoder;
+  RelativeEncoder rightRearMotorEncoder;
+
+  /* 
   SparkMaxRelativeEncoder leftFrontMotorEncoder;
   SparkMaxRelativeEncoder rightFrontMotorEncoder;
   SparkMaxRelativeEncoder leftRearMotorEncoder;
   SparkMaxRelativeEncoder rightRearMotorEncoder;
-
+  */
   
     /** Creates a new Drivetrain. */
     public Drivetrain() {
