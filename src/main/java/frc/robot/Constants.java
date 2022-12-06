@@ -4,7 +4,7 @@
 
 package frc.robot;
 
-import edu.wpi.first.math.controller.SimpleMotorFeedforward;
+//import edu.wpi.first.math.controller.SimpleMotorFeedforward;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
 
@@ -22,59 +22,57 @@ public final class Constants {
 
 
   //Controller constants
+  public final static class Controllers{
+    //controller - Driver
+    public static final int DRIVER_JOYSTICK = 0;
 
-  //controller - Driver
-  public static final int DRIVER_JOYSTICK = 0;
+    //controller - Driver Axis maps
+    public static final int DRIVER_JOYSTICK_LEFT_X_AXIS = 0;
+    public static final int DRIVER_JOYSTICK_LEFT_Y_AXIS = 1;
+    
+    /*
+    Modified controller - right joystick replaced with potentiometer
 
-  //controller - Driver Axis maps
-  public static final int DRIVER_JOYSTICK_LEFT_X_AXIS = 0;
-  public static final int DRIVER_JOYSTICK_LEFT_Y_AXIS = 1;
-  /*
-  Modified controller - right joystick replaced with potentiometer
+    public static final int DRIVER_JOYSTICK_RIGHT_X_AXIS = 2;
+    public static final int DRIVER_JOYSTICK_RIGHT_Y_AXIS = 3;
 
-  public static final int DRIVER_JOYSTICK_RIGHT_X_AXIS = 2;
-  public static final int DRIVER_JOYSTICK_RIGHT_Y_AXIS = 3;
-
-  */
-  public static final int DRIVER_ROTATION = 2; //replaces right x-axis
+    */
+    public static final int DRIVER_ROTATION = 2; //replaces right x-axis
 
 
-  //controller - Driver Button maps
-  public static final int DRIVER_LEFT = 1;
-  public static final int DRIVER_RIGHT = 3;
-  public static final int DRIVER_UP = 4;
-  public static final int DRIVER_DOWN = 2;
-  public static final int DRIVER_SHOULDER_TOP_LEFT = 5;
-  public static final int DRIVER_SHOULDER_TOP_RIGHT = 6;
-  public static final int DRIVER_SHOULDER_BOTTOM_LEFT = 7;
-  public static final int DRIVER_SHOULDER_BOTTOM_RIGHT = 8;
-  public static final int DRIVER_LEFT_JOYSTICK = 9;
-  //public static final int DRIVER_RIGHT_JOYSTICK = 10; //removed with joystick modification
+    //controller - Driver Button maps
+    public static final int DRIVER_LEFT = 1;
+    public static final int DRIVER_RIGHT = 3;
+    public static final int DRIVER_UP = 4;
+    public static final int DRIVER_DOWN = 2;
+    public static final int DRIVER_SHOULDER_TOP_LEFT = 5;
+    public static final int DRIVER_SHOULDER_TOP_RIGHT = 6;
+    public static final int DRIVER_SHOULDER_BOTTOM_LEFT = 7;
+    public static final int DRIVER_SHOULDER_BOTTOM_RIGHT = 8;
+    public static final int DRIVER_LEFT_JOYSTICK = 9;
+    //public static final int DRIVER_RIGHT_JOYSTICK = 10; //removed with joystick modification
 
-  //drivetrain speed constants
-  public static final double DRIVETRAIN_SPEED = 1;
+    //controller - operator
+    public static final int OPERATOR_JOYSTICK = 1;
 
-  //controller - operator
-  public static final int OPERATOR_JOYSTICK = 1;
+    //controller - Operator Axis maps
+    public static final int OPERATOR_JOYSTICK_LEFT_X_AXIS = 0;
+    public static final int OPERATOR_JOYSTICK_LEFT_Y_AXIS = 1;
+    public static final int OPERATOR_JOYSTICK_RIGHT_X_AXIS = 2;
+    public static final int OPERATOR_JOYSTICK_RIGHT_Y_AXIS = 3;
 
-  //controller - Operator Axis maps
-  public static final int OPERATOR_JOYSTICK_LEFT_X_AXIS = 0;
-  public static final int OPERATOR_JOYSTICK_LEFT_Y_AXIS = 1;
-  public static final int OPERATOR_JOYSTICK_RIGHT_X_AXIS = 2;
-  public static final int OPERATOR_JOYSTICK_RIGHT_Y_AXIS = 3;
-
-  //controller - Driver Button maps
-  public static final int OPERATOR_LEFT = 1;
-  public static final int OPERATOR_RIGHT = 3;
-  public static final int OPERATOR_UP = 4;
-  public static final int OPERATOR_DOWN = 2;
-  public static final int OPERATOR_SHOULDER_TOP_LEFT = 5;
-  public static final int OPERATOR_SHOULDER_TOP_RIGHT = 6;
-  public static final int OPERATOR_SHOULDER_BOTTOM_LEFT = 7;
-  public static final int OPERATOR_SHOULDER_BOTTOM_RIGHT = 8;
-  public static final int OPERATOR_LEFT_JOYSTICK = 9;
-  public static final int OPERATOR_RIGHT_JOYSTICK = 10;
-
+    //controller - Driver Button maps
+    public static final int OPERATOR_LEFT = 1;
+    public static final int OPERATOR_RIGHT = 3;
+    public static final int OPERATOR_UP = 4;
+    public static final int OPERATOR_DOWN = 2;
+    public static final int OPERATOR_SHOULDER_TOP_LEFT = 5;
+    public static final int OPERATOR_SHOULDER_TOP_RIGHT = 6;
+    public static final int OPERATOR_SHOULDER_BOTTOM_LEFT = 7;
+    public static final int OPERATOR_SHOULDER_BOTTOM_RIGHT = 8;
+    public static final int OPERATOR_LEFT_JOYSTICK = 9;
+    public static final int OPERATOR_RIGHT_JOYSTICK = 10;
+  }
 
   public final static class Math {
     /** The mathematical constant pi */
@@ -87,12 +85,17 @@ public final class Constants {
 
     /** Physical chassis measurements and dimensions */
   public final class ChassisConstants {
+    
+    /*
+    TODO: 
+    update chassis values to actual robot measurements
+    */
+
     /** Wheel diameter in meters */
     public final static double WHEEL_DIAMETER = 6 * Math.INCHES_2_METERS;
     /** Wheel circumference in meters */
     public final static double WHEEL_CIRCUM = WHEEL_DIAMETER * Math.PI;
     /** Width between two wheels (axle length) in meters */
-    //TODO: update
     public final static double TRACK_WIDTH = 23 * Math.INCHES_2_METERS;
     /** Width of the robot in meters */
     public final static double WIDTH = 27 * Math.INCHES_2_METERS;
@@ -100,26 +103,27 @@ public final class Constants {
     public final static double LENGTH = 32.3 * Math.INCHES_2_METERS; 
   }
   
-   /** Configuration options, PID constants, and CAN Bus ID's for {@link frc.robot.subsystems.Drivetrain Drivetrain} subsystem */
-   public final static class DriveConstants {
-/* 
-  TODO:
-   Get CANbus ID values for sparkmax controllers
-   Check drive motor INVERTED settings
-  */
+  /** Configuration options, PID constants, and CAN Bus ID's for {@link frc.robot.subsystems.Drivetrain Drivetrain} subsystem */
+  public final static class DriveConstants {
+    /* 
+    TODO:
+    Get CANbus ID values for sparkmax controllers
+    Check drive motor INVERTED settings
+    */
+
+    //Motor IDs
     public static final int LEFT_FRONT_MOTOR = 0;
     public static final int LEFT_REAR_MOTOR = 1;
     public static final int RIGHT_FRONT_MOTOR = 2;
     public static final int RIGHT_REAR_MOTOR = 3;
 
-    /** Left front SparkMAX is inverted */
+    //Motor inversion
     public final static boolean LEFT_FRONT_INVERTED = false;
-    /** Left back SparkMAX is inverted */
     public final static boolean LEFT_REAR_INVERTED = false;
-    /** Right front SparkMAX is inverted */
     public final static boolean RIGHT_FRONT_INVERTED = true;
-    /** Right back SparkMAX is inverted */
     public final static boolean RIGHT_REAR_INVERTED = true;
+
+    //SparkMAX PID constants
     /** P constant for SparkMAX onboard PID control */
     public final static double P = 0.0;
     /** I constant for SparkMAX onboard PID control */
@@ -128,6 +132,8 @@ public final class Constants {
     public final static double D = 0.0;
     /** F constant for SparkMAX onboard PID control */
     public final static double F = 0.0;
+
+
     /** Max speed of the robot between [0,1] */
     public final static double MAX_SPEED = 0.75;
     /** Maximum forward driving velocity in m/s (meters per second). Should
@@ -153,6 +159,12 @@ public final class Constants {
      * <a href=https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html">FRC Docs</a>
      * section on motor characterization for more */
     public final static double A = 0.0313;
+    
+    /*
+    TODO:
+    double check kinematics translation values 
+     */
+
     /** MecanumDriveKinematics object for the Drivetrain */
     public final static MecanumDriveKinematics KINEMATICS = new MecanumDriveKinematics(
         new Translation2d(0.381, 0.381),
