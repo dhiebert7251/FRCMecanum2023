@@ -5,9 +5,8 @@
 package frc.robot.subsystems;
 
 import frc.robot.Constants;
-import frc.robot.Constants.DriveConstants;
-import frc.robot.Constants.ChassisConstants;
-
+//import frc.robot.Constants.DriveConstants;
+//import frc.robot.Constants.ChassisConstants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
@@ -19,11 +18,9 @@ import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.RelativeEncoder;
 
-
+//Sensor libraries
 import edu.wpi.first.wpilibj.ADXRS450_Gyro;
 import edu.wpi.first.wpilibj.interfaces.Gyro;
-
-
 
 //Dashboard libraries
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -40,7 +37,6 @@ public class Drivetrain extends SubsystemBase {
 
 
   //drivetrain speed controllers   
-   
   CANSparkMax leftFrontMotor;
   CANSparkMax rightFrontMotor;
   CANSparkMax leftRearMotor;
@@ -59,47 +55,59 @@ public class Drivetrain extends SubsystemBase {
   RelativeEncoder rightFrontMotorEncoder;
   RelativeEncoder leftRearMotorEncoder;
   RelativeEncoder rightRearMotorEncoder;
-
-  /* 
-  SparkMaxRelativeEncoder leftFrontMotorEncoder;
-  SparkMaxRelativeEncoder rightFrontMotorEncoder;
-  SparkMaxRelativeEncoder leftRearMotorEncoder;
-  SparkMaxRelativeEncoder rightRearMotorEncoder;
-  */
   
     /** Creates a new Drivetrain. */
     public Drivetrain() {
 
       //Motors
       leftFrontMotor = new CANSparkMax(Constants.DriveConstants.LEFT_FRONT_MOTOR, MotorType.kBrushless);
+      leftFrontMotor.restoreFactoryDefaults();
       leftFrontMotor.setInverted(Constants.DriveConstants.LEFT_FRONT_INVERTED);
       //leftFrontMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
       leftRearMotor = new CANSparkMax(Constants.DriveConstants.LEFT_REAR_MOTOR, MotorType.kBrushless);
+      leftRearMotor.restoreFactoryDefaults();
       leftRearMotor.setInverted(Constants.DriveConstants.LEFT_REAR_INVERTED);
       //leftRearMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
       rightFrontMotor = new CANSparkMax(Constants.DriveConstants.RIGHT_FRONT_MOTOR, MotorType.kBrushless);
+      rightFrontMotor.restoreFactoryDefaults();
       rightFrontMotor.setInverted(Constants.DriveConstants.RIGHT_FRONT_INVERTED);
       //rightFrontMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
       rightRearMotor = new CANSparkMax(Constants.DriveConstants.RIGHT_REAR_MOTOR, MotorType.kBrushless);
+      rightRearMotor.restoreFactoryDefaults();
       rightRearMotor.setInverted(Constants.DriveConstants.RIGHT_REAR_INVERTED);
       //rightRearMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
     
       //mecanum drivetrain
       drive = new MecanumDrive(leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor);
+      setMaxSpeed(Constants.DriveConstants.MAX_SPEED);
       
       //Sensors
 
       //Gyro
       ADXRS450_Gyro gyro = new ADXRS450_Gyro();
+      gyro.reset();
+
+      //Odometry
+      driveOdometry = new MecanumDriveOdometry(Constants.DriveConstants.KINEMATICS, getGyroRotation());
 
       //Drive motor encoders
-      leftFrontMotorEncoder = (SparkMaxRelativeEncoder) leftFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,DriveConstants.kEncoderCPR);
-      leftRearMotorEncoder = (SparkMaxRelativeEncoder) leftRearMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,DriveConstants.kEncoderCPR);
-      rightFrontMotorEncoder = (SparkMaxRelativeEncoder) rightFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,DriveConstants.kEncoderCPR);
-      rightRearMotorEncoder = (SparkMaxRelativeEncoder) rightRearMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,DriveConstants.kEncoderCPR);
+      leftFrontMotorEncoder = leftFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,Constants.DriveConstants.kEncoderCPR);
+      leftRearMotorEncoder = leftRearMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,Constants.DriveConstants.kEncoderCPR);
+      rightFrontMotorEncoder = rightFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,Constants.DriveConstants.kEncoderCPR);
+      rightRearMotorEncoder = rightRearMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,Constants.DriveConstants.kEncoderCPR);
 
-
-
+      /*
+      TODO: why 10.71?  where is this conversion factor from?
+       */
+      leftFrontMotorEncoder.setPositionConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/10.71);
+      leftRearMotorEncoder.setPositionConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/10.71);
+      rightFrontMotorEncoder.setPositionConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/10.71);
+      rightRearMotorEncoder.setPositionConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/10.71);
+      leftFrontMotorEncoder.setVelocityConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/(10.71*60));
+      leftRearMotorEncoder.setVelocityConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/(10.71*60));
+      rightFrontMotorEncoder.setVelocityConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/(10.71*60));
+      rightRearMotorEncoder.setVelocityConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/(10.71*60));
+      
       //set distance per pulse for encoders     
 
       //Odometry class for tracking robot pose

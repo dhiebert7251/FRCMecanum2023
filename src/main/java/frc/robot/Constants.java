@@ -159,6 +159,9 @@ public final class Constants {
      * <a href=https://docs.wpilib.org/en/stable/docs/software/wpilib-tools/robot-characterization/introduction.html">FRC Docs</a>
      * section on motor characterization for more */
     public final static double A = 0.0313;
+
+    //encoders
+    public final static int kEncoderCPR = 42;
     
     /*
     TODO:
