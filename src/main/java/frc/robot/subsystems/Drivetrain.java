@@ -70,25 +70,18 @@ public class Drivetrain extends SubsystemBase {
     /** Creates a new Drivetrain. */
     public Drivetrain() {
 
-      /* 
-      TODO:
-        set motor constants to CAN bus addresses
-        may need to reverse inverted motors
-
-      */
-
       //Motors
-      leftFrontMotor = new CANSparkMax(Constants.LEFT_FRONT_MOTOR, MotorType.kBrushless);
-      leftFrontMotor.setInverted(true);
+      leftFrontMotor = new CANSparkMax(Constants.DriveConstants.LEFT_FRONT_MOTOR, MotorType.kBrushless);
+      leftFrontMotor.setInverted(Constants.DriveConstants.LEFT_FRONT_INVERTED);
       //leftFrontMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
-      leftRearMotor = new CANSparkMax(Constants.LEFT_REAR_MOTOR, MotorType.kBrushless);
-      leftRearMotor.setInverted(true);
+      leftRearMotor = new CANSparkMax(Constants.DriveConstants.LEFT_REAR_MOTOR, MotorType.kBrushless);
+      leftRearMotor.setInverted(Constants.DriveConstants.LEFT_REAR_INVERTED);
       //leftRearMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
-      rightFrontMotor = new CANSparkMax(Constants.RIGHT_FRONT_MOTOR, MotorType.kBrushless);
-      rightFrontMotor.setInverted(false);
+      rightFrontMotor = new CANSparkMax(Constants.DriveConstants.RIGHT_FRONT_MOTOR, MotorType.kBrushless);
+      rightFrontMotor.setInverted(Constants.DriveConstants.RIGHT_FRONT_INVERTED);
       //rightFrontMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
-      rightRearMotor = new CANSparkMax(Constants.RIGHT_REAR_MOTOR, MotorType.kBrushless);
-      rightRearMotor.setInverted(false);
+      rightRearMotor = new CANSparkMax(Constants.DriveConstants.RIGHT_REAR_MOTOR, MotorType.kBrushless);
+      rightRearMotor.setInverted(Constants.DriveConstants.RIGHT_REAR_INVERTED);
       //rightRearMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
     
       //mecanum drivetrain
