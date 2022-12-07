@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 
 //SparkMAX libraries
 import com.revrobotics.CANSparkMax;
+import com.revrobotics.CANSparkMax.IdleMode;
 import com.revrobotics.CANSparkMax.IdleMode.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxRelativeEncoder;
@@ -31,6 +32,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.kinematics.MecanumDriveOdometry;
 import edu.wpi.first.math.kinematics.MecanumDriveWheelSpeeds;
+import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 
 
 public class Drivetrain extends SubsystemBase {
@@ -79,7 +81,7 @@ public class Drivetrain extends SubsystemBase {
     
       //mecanum drivetrain
       drive = new MecanumDrive(leftFrontMotor, leftRearMotor, rightFrontMotor, rightRearMotor);
-      setMaxSpeed(Constants.DriveConstants.MAX_SPEED);
+      setMaxSpeed();
       
       //Sensors
 
@@ -88,7 +90,8 @@ public class Drivetrain extends SubsystemBase {
       gyro.reset();
 
       //Odometry
-      driveOdometry = new MecanumDriveOdometry(Constants.DriveConstants.KINEMATICS, getGyroRotation());
+      
+      driveOdometry = new MecanumDriveOdometry(Constants.DriveConstants.KINEMATICS, getGyroRotation(), getWheelPositions());
 
       //Drive motor encoders
       leftFrontMotorEncoder = leftFrontMotor.getEncoder(SparkMaxRelativeEncoder.Type.kHallSensor,Constants.DriveConstants.kEncoderCPR);
@@ -108,17 +111,6 @@ public class Drivetrain extends SubsystemBase {
       rightFrontMotorEncoder.setVelocityConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/(10.71*60));
       rightRearMotorEncoder.setVelocityConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/(10.71*60));
       
-      //set distance per pulse for encoders     
-
-      //Odometry class for tracking robot pose
-      //MecanumDriveOdometry odometry = new MecanumDriveOdometry(DriveConstants.kDriveKinematics, gyro.getRotation2d(), initialPoseMeters)
-      //MecanumDriveOdometry odometry = new MecanumDriveOdometry(DriveConstants.kDriveKinematics, gyro.getRotation2d());
-
-
-
-
-
-
       //Shuffleboard data  
 
       /*
@@ -144,6 +136,9 @@ public class Drivetrain extends SubsystemBase {
     @Override
     public void periodic() {
       // This method will be called once per scheduler run
+      // Update odometry
+
+      driveOdometry.update(getGyroRotation(), getWheelPositions()); 
 
     }
 
@@ -163,8 +158,52 @@ public class Drivetrain extends SubsystemBase {
       drive.driveCartesian(ySpeed, xSpeed, zRotation);
     }
 
+    /**
+    * Drive Mecanum style with/without FOD (Field Oriented Driving)
+    * 
+    * @param throttle speed along y axis (forward is positive) [-1.0, 1.0]
+    * @param slide speed along x-axis (right is positive) [-1.0, 1.0]
+    * @param rotation rotational speed (clockwise is positive) [-1.0, 1.0]
+    * @param useFOD use Field Oriented Driving
+    */ 
+    public void drive(double throttle, double slide, double rotation, boolean useFOD) { 
+      if (useFOD) {
+        drive.driveCartesian(throttle, slide, rotation, getGyroRotation());
+      } 
+      else 
+      {
+        drive.driveCartesian(throttle, slide, rotation);
+      }
+    }
 
+    /**
+    * Sets the drive motors to brake mode
+    * @see #setCoast
+    */
+    public void setBrake() {
+      leftFrontMotor.setIdleMode(IdleMode.kBrake);
+      leftRearMotor.setIdleMode(IdleMode.kBrake);
+      rightFrontMotor.setIdleMode(IdleMode.kBrake);
+      rightRearMotor.setIdleMode(IdleMode.kBrake);
+    }
 
+    /**
+     * Sets the drive motors to brake mode
+    * @see #setBrake
+    */
+    public void setCoast() {
+      leftFrontMotor.setIdleMode(IdleMode.kCoast);
+      leftRearMotor.setIdleMode(IdleMode.kCoast);
+      rightFrontMotor.setIdleMode(IdleMode.kCoast);
+      rightRearMotor.setIdleMode(IdleMode.kCoast);
+    }
+
+    /** Set the max speed of the drivetrain between [0,1] */
+    public void setMaxSpeed() {
+     drive.setMaxOutput(Constants.DriveConstants.MAX_SPEED);
+    }
+
+    
     /** Resets the drive encoders to currently read a position of 0. */
     public void resetEncoders() {
       leftFrontMotorEncoder.setPosition(0);
@@ -173,43 +212,92 @@ public class Drivetrain extends SubsystemBase {
       rightRearMotorEncoder.setPosition(0);
     }
 
+
+    /** Get the distance driven by the left side */
+    public double getDistanceLeft() {
+     return (leftFrontMotorEncoder.getPosition() + leftRearMotorEncoder.getPosition())/2.0;
+    }
+
+    /** Get the distance driven by the right sice */
+    public double getDistanceRight() {
+     return (rightFrontMotorEncoder.getPosition() + rightRearMotorEncoder.getPosition())/2.0;
+    }
+  
+    /** Get the velocity of the left side */
+    public double getVelocityLeft(){
+     return (leftFrontMotorEncoder.getVelocity() + leftRearMotorEncoder.getVelocity())/2.0;
+    }
+
+    /** Get the velocity of the right side */
+    public double getVelocityRight(){
+     return (rightFrontMotorEncoder.getVelocity() + rightRearMotorEncoder.getVelocity())/2.0;
+    }   
+
     /**
-    * Gets the front left drive encoder.
-    *
-    * @return the front left drive encoder
+    * Returns the current wheel speeds of the drivetrain.
     */
-
-    public SparkMaxRelativeEncoder getLeftFrontEncoder(){
-      return leftFrontMotorEncoder;
+    public MecanumDriveWheelSpeeds getWheelSpeeds() {
+     return new MecanumDriveWheelSpeeds(
+          leftFrontMotorEncoder.getVelocity(),
+          rightFrontMotorEncoder.getVelocity(),
+          leftRearMotorEncoder.getVelocity(),
+          rightRearMotorEncoder.getVelocity());
+    }    
+    
+    public MecanumDriveWheelPositions getWheelPositions() {
+      return new MecanumDriveWheelPositions(
+          leftFrontMotorEncoder.getPosition(),
+          rightFrontMotorEncoder.getPosition(),
+          leftRearMotorEncoder.getPosition(),
+          rightRearMotorEncoder.getPosition());
+      }
+    /** Get the current robot pose as a Pose2d object in meters */
+    public Pose2d getPose() {
+      return driveOdometry.getPoseMeters();
+    }
+  
+    /** Get the current gyroscope angle in degrees from forward [-180, 180] */
+    public double getGyroAngle() {
+         return gyro.getRotation2d().getDegrees();
+    }
+    
+    /** Get the current gyroscope velocity in degrees/second,
+    * where positive is counter-clockwise */
+    public double getGyroVelocity() {
+     return -gyro.getRate();
     }
 
-    public SparkMaxRelativeEncoder getLeftRearEncoder(){
-      return leftRearMotorEncoder;
+    /** Get the current gyroscope rotation as a Rotation2d object */
+    public Rotation2d getGyroRotation() {
+      return gyro.getRotation2d();
     }
+    
 
-    public SparkMaxRelativeEncoder getRightFrontEncoder(){
-      return rightFrontMotorEncoder;
+      /** Reset the gyroscope to 0 */
+    public void resetGyro() {
+     if (getVelocityLeft() != 0 || getVelocityRight() != 0) {
+      System.out.println("WARNING: Do not try to reset the gyroscope while the robot is moving");
+      return;
     }
-
-    public SparkMaxRelativeEncoder getRightRearEncoder(){
-      return rightRearMotorEncoder;
+      gyro.reset();
     }
 
     /**
+     * TODO:  double check - i think this is redundant
     * Gets the current wheel speeds.
     *
     * @return the current wheel speeds in a MecanumDriveWheelSpeeds object.
-    */
+
     public MecanumDriveWheelSpeeds getCurrentWheelSpeeds() {
-      double leftFrontSpeed = (leftFrontMotorEncoder.getVelocity())*(DriveConstants.kWheelCircumference)/60;
-      double leftRearSpeed = (leftRearMotorEncoder.getVelocity())*(DriveConstants.kWheelCircumference)/60;
-      double rightFrontSpeed = (rightFrontMotorEncoder.getVelocity())*(DriveConstants.kWheelCircumference)/60;
-      double rightRearSpeed = (rightRearMotorEncoder.getVelocity())*(DriveConstants.kWheelCircumference)/60;
+      double leftFrontSpeed = (leftFrontMotorEncoder.getVelocity())*(Constants.ChassisConstants.WHEEL_CIRCUM)/60;
+      double leftRearSpeed = (leftRearMotorEncoder.getVelocity())*(Constants.ChassisConstants.WHEEL_CIRCUM)/60;
+      double rightFrontSpeed = (rightFrontMotorEncoder.getVelocity())*(Constants.ChassisConstants.WHEEL_CIRCUM)/60;
+      double rightRearSpeed = (rightRearMotorEncoder.getVelocity())*(Constants.ChassisConstants.WHEEL_CIRCUM)/60;
 
       return new MecanumDriveWheelSpeeds(leftFrontSpeed, leftRearSpeed, rightFrontSpeed, rightRearSpeed);
     }
 
-
+*/
 
     public void stop() {
       drive.stopMotor();
