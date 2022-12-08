@@ -6,10 +6,18 @@ package frc.robot;
 
 import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import frc.robot.commands.DriveWithJoysticks;
-import frc.robot.subsystems.Drivetrain;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+
+//subsystems
+import frc.robot.subsystems.Drivetrain;
+
+//commands
+import frc.robot.commands.DriveWithJoysticks;
+
+//dashboard
+//import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+
 
 
 
@@ -21,21 +29,39 @@ import edu.wpi.first.wpilibj2.command.Command;
  */
 public class RobotContainer {
   // The robot's subsystems and commands are defined here...
-    
-  //Drivetrain declare
-    private final Drivetrain driveTrain = new Drivetrain();
 
   //Joystick declare
-    private final XboxController  driverJoystick = new XboxController(Constants.DRIVER_JOYSTICK);
-  //private final XboxController operatorJoystick = new XboxController(Constants.OPERATOR_JOYSTICK);
+    private final XboxController  driverJoystick = new XboxController(Constants.Controllers.DRIVER_JOYSTICK);
+    //private final XboxController operatorJoystick = new XboxController(Constants.Controllers.OPERATOR_JOYSTICK);
+ 
+  //Subsystems declare
+    private final Drivetrain driveTrain = new Drivetrain();
 
-  //Subsystem declare
-    private final DriveWithJoysticks driveWithJoysticks = new DriveWithJoysticks(driveTrain, driverJoystick);
+  //Commands declare
+    private final DriveWithJoysticks driveWithJoysticks 
+      = new DriveWithJoysticks(
+          driveTrain,
+          () -> driverJoystick.getLeftY(),
+          () -> driverJoystick.getLeftX(),
+          () -> driverJoystick.getRightX(),
+          false);
 
-  /** The container for the robot. Contains subsystems, OI devices, and commands. */
-    //Sendable chooser declare
+    private final DriveWithJoysticks driveWithJoysticksFOD 
+      = new DriveWithJoysticks(
+          driveTrain,
+          () -> driverJoystick.getLeftY(),
+          () -> driverJoystick.getLeftX(),
+          () -> driverJoystick.getRightX(),
+          true);
+
+    
+
+     
+  //Sendable chooser declare
     SendableChooser<Command> chooser = new SendableChooser<>();  //allows for autonomous selection
     
+
+
   public RobotContainer() {
     // add requirements
     driveWithJoysticks.addRequirements(driveTrain);

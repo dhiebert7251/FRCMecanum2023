@@ -25,6 +25,7 @@ import edu.wpi.first.wpilibj.interfaces.Gyro;
 
 //Dashboard libraries
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 //Math/kinematics librarys
@@ -112,7 +113,7 @@ public class Drivetrain extends SubsystemBase {
       rightRearMotorEncoder.setVelocityConversionFactor(Constants.ChassisConstants.WHEEL_CIRCUM/(10.71*60));
       
       //Shuffleboard data  
-
+      configureDriveShuffleboard();
       /*
       TODO:
         update SmartDashboard data to Shuffleboard data
@@ -131,6 +132,8 @@ public class Drivetrain extends SubsystemBase {
 
 
     }
+
+
 
 
     @Override
@@ -154,10 +157,6 @@ public class Drivetrain extends SubsystemBase {
    */
     
     
-    public void driveWithJoysticks(double ySpeed, double xSpeed, double zRotation) {
-      drive.driveCartesian(ySpeed, xSpeed, zRotation);
-    }
-
     /**
     * Drive Mecanum style with/without FOD (Field Oriented Driving)
     * 
@@ -166,7 +165,7 @@ public class Drivetrain extends SubsystemBase {
     * @param rotation rotational speed (clockwise is positive) [-1.0, 1.0]
     * @param useFOD use Field Oriented Driving
     */ 
-    public void drive(double throttle, double slide, double rotation, boolean useFOD) { 
+    public void driveWithJoysticks(double throttle, double slide, double rotation, boolean useFOD) { 
       if (useFOD) {
         drive.driveCartesian(throttle, slide, rotation, getGyroRotation());
       } 
@@ -309,4 +308,31 @@ public class Drivetrain extends SubsystemBase {
 
     }
     
+    private void configureDriveShuffleboard() {
+      //set up shuffleboard tab to monitor/control drive components
+      ShuffleboardTab shuffleDriveTab = Shuffleboard.getTab("Drive");
+
+      //Add motor encoder monitors
+      shuffleDriveTab
+        .add("Left Front Motor", leftFrontMotor)
+        .withPosition(0,0)
+        .withSize(2,1);
+
+      shuffleDriveTab
+        .add("Right Front Motor", rightFrontMotor)
+        .withPosition(3,0)
+        .withSize(2,1);
+
+      shuffleDriveTab
+        .add("Left Rear Motor", leftRearMotor)
+        .withPosition(0,2)
+        .withSize(2,1);
+
+      shuffleDriveTab
+        .add("Right Rear Motor", rightRearMotor)
+        .withPosition(3,2)
+        .withSize(2,1);
+
+      
+    }
 }
