@@ -8,12 +8,17 @@ import edu.wpi.first.wpilibj.GenericHID;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //subsystems
 import frc.robot.subsystems.Drivetrain;
 
 //commands
 import frc.robot.commands.DriveWithJoysticks;
+import frc.robot.commands.Autonomous.autoBoxLeft;
+import frc.robot.commands.Autonomous.autoBoxRight;
+import frc.robot.commands.Autonomous.autoDoNothing;
+import frc.robot.commands.Autonomous.autoDriveForward;
+import frc.robot.commands.Autonomous.autoMecanumY;
 
 //dashboard
 //import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -54,34 +59,55 @@ public class RobotContainer {
           () -> driverJoystick.getRightX(),
           true);
 
-    
-
      
   //Sendable chooser declare
-    SendableChooser<Command> chooser = new SendableChooser<>();  //allows for autonomous selection
+    SendableChooser<Command> autoChooser = new SendableChooser<>();  //allows for autonomous selection
     
 
 
   public RobotContainer() {
-    // add requirements
-    driveWithJoysticks.addRequirements(driveTrain);
+
+    //set autonomous selector
+    autoChooser.setDefaultOption(
+      "Do Nothing", 
+      new autoDoNothing()
+      );
+
+    autoChooser.addOption(
+      "Drive Forward",
+      new autoDriveForward()
+      );
+
+    autoChooser.addOption(
+      "Box Left",
+      new autoBoxLeft()
+      );
+
+    autoChooser.addOption(
+      "Box Right",
+      new autoBoxRight()
+      );
+
+    autoChooser.addOption(
+      "Mecanum Y",
+      new autoMecanumY()
+      );
 
     // set default commands on subsystems
-    driveTrain.setDefaultCommand(new DriveWithJoysticks(driveTrain, driverJoystick));
+    driveTrain.setDefaultCommand(driveWithJoysticks);
+
 
     // Configure the button bindings
     configureButtonBindings();
   }
 
-  /**
-   * Use this method to define your button->command mappings. Buttons can be created by
-   * instantiating a {@link GenericHID} or one of its subclasses ({@link
-   * edu.wpi.first.wpilibj.Joystick} or {@link XboxController}), and then passing it to a {@link
-   * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
-   */
+
 
 
   private void configureButtonBindings() {
+    //Configure dashboard button for FOD
+    SmartDashboard.putData("Drive with FOD",driveWithJoysticksFOD);
+
     //JoystickButton driverLeft = new JoystickButton(driverJoystick, Constants.DRIVER_LEFT);
     //JoystickButton driverRight = new JoystickButton(driverJoystick, Constants.DRIVER_RIGHT);
     //JoystickButton driverUp = new JoystickButton(driverJoystick, Constants.DRIVER_UP);
@@ -120,7 +146,7 @@ public class RobotContainer {
    */
   public Command getAutonomousCommand() {
     //return m_autoCommand;  //return the name of the command for autonomous
-    return chooser.getSelected();
+    return autoChooser.getSelected();
 
   }
 }
