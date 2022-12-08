@@ -93,12 +93,22 @@ public class RobotContainer {
       new autoMecanumY()
       );
 
+      SmartDashboard.putNumber("Controller Angle", driverJoystick.getRightX());
+
     // set default commands on subsystems
     driveTrain.setDefaultCommand(driveWithJoysticks);
 
 
     // Configure the button bindings
     configureButtonBindings();
+
+    /*
+     * TODO: should this be here?
+     */
+
+    //Initialize/calibrate gyro
+    driveTrain.resetGyro();
+    driveTrain.calibrateGyro();
   }
 
 
@@ -107,6 +117,14 @@ public class RobotContainer {
   private void configureButtonBindings() {
     //Configure dashboard button for FOD
     SmartDashboard.putData("Drive with FOD",driveWithJoysticksFOD);
+
+    /*
+     * TODO: find values for dpad; create command (method?) to face 0, 90, 180, 270
+     
+    new JoystickButton(Constants.Controllers.DRIVER_JOYSTICK, dpad_value)
+      .whenPressed(new InstantCommand(driveTrain::))
+    */
+
 
     //JoystickButton driverLeft = new JoystickButton(driverJoystick, Constants.DRIVER_LEFT);
     //JoystickButton driverRight = new JoystickButton(driverJoystick, Constants.DRIVER_RIGHT);

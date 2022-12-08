@@ -281,6 +281,14 @@ public class Drivetrain extends SubsystemBase {
       gyro.reset();
     }
 
+    public void calibrateGyro(){
+      if (getVelocityLeft() != 0 || getVelocityRight() != 0) {
+        System.out.println("WARNING: Do not try to reset the gyroscope while the robot is moving");
+        return;
+      }
+      gyro.calibrate();
+    }
+
     /**
      * TODO:  double check - i think this is redundant
     * Gets the current wheel speeds.
@@ -308,6 +316,9 @@ public class Drivetrain extends SubsystemBase {
 
     }
     
+    /*
+     * TODO: need to see how this all works
+     */
     private void configureDriveShuffleboard() {
       //set up shuffleboard tab to monitor/control drive components
       ShuffleboardTab shuffleDriveTab = Shuffleboard.getTab("Drive");
@@ -332,6 +343,14 @@ public class Drivetrain extends SubsystemBase {
         .add("Right Rear Motor", rightRearMotor)
         .withPosition(3,2)
         .withSize(2,1);
+
+      SmartDashboard.putString("Gyro Angle", Double.toString(gyro.getAngle()));
+
+
+      SmartDashboard.putNumber("Front Left Drive", leftFrontMotor.getOutputCurrent());
+      SmartDashboard.putNumber("Back Left Drive", leftRearMotor.getOutputCurrent());
+      SmartDashboard.putNumber("Front Right Drive", rightFrontMotor.getOutputCurrent());
+      SmartDashboard.putNumber("Back Right Drive", rightRearMotor.getOutputCurrent());
 
       
     }
