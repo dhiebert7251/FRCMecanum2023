@@ -120,9 +120,9 @@ public class RobotContainer {
 
     /*
      * TODO: find values for dpad; create command (method?) to face 0, 90, 180, 270
-     
-    new JoystickButton(Constants.Controllers.DRIVER_JOYSTICK, dpad_value)
-      .whenPressed(new InstantCommand(driveTrain::))
+     */
+    new JoystickButton(Constants.Controllers.DRIVER_JOYSTICK, driverJoystick.povUp)
+      .whenPressed(new InstantCommand(driveTrain::driveWithJoysticks(0,0,0,0)));
     */
 
 

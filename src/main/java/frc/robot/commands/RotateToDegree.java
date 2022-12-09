@@ -6,9 +6,9 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.CommandBase;
 
-public class Rotate90 extends CommandBase {
-  /** Creates a new Rotate90. */
-  public Rotate90() {
+public class RotateToDegree extends CommandBase {
+  /** Creates a new RotateToDegree. */
+  public RotateToDegree() {
     // Use addRequirements() here to declare subsystem dependencies.
   }
 

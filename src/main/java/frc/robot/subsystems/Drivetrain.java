@@ -175,6 +175,12 @@ public class Drivetrain extends SubsystemBase {
       }
     }
 
+    public void rotateToDegree(double desiredAngle) {
+      double currentAngle;
+
+      
+
+    }
     /**
     * Sets the drive motors to brake mode
     * @see #setCoast
