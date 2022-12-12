@@ -58,7 +58,8 @@ public class RobotContainer {
           () -> driverJoystick.getLeftY(),
           () -> driverJoystick.getLeftX(),
           () -> driverJoystick.getRightX(),
-          true);
+          true,
+          1);
 
      
   //Sendable chooser declare
@@ -117,14 +118,13 @@ public class RobotContainer {
 
   private void configureButtonBindings() {
     //Configure dashboard button for FOD
-    SmartDashboard.putData("Drive with FOD",driveWithJoysticksFOD);
+
 
     /*
      * TODO: find values for dpad; create command (method?) to face 0, 90, 180, 270
      */
-    new JoystickButton(Constants.Controllers.DRIVER_JOYSTICK, driverJoystick.povUp)
-      .whenPressed(new InstantCommand(driveTrain::driveWithJoysticks(0,0,0,0)));
-    */
+
+    
 
 
     //JoystickButton driverLeft = new JoystickButton(driverJoystick, Constants.DRIVER_LEFT);
