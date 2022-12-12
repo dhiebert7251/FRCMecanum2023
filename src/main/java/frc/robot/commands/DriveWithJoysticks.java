@@ -16,16 +16,18 @@ public class DriveWithJoysticks extends CommandBase {
   private DoubleSupplier slide;
   private DoubleSupplier rotation;
   private boolean useFOD;
+  private int joystickType;
   //private enum driverController;
 
   
   /** Creates a new DriveWithJoysticks. */
-  public DriveWithJoysticks(Drivetrain driveTrain, DoubleSupplier throttle, DoubleSupplier slide, DoubleSupplier rotation, boolean useFOD) {
+  public DriveWithJoysticks(Drivetrain driveTrain, DoubleSupplier throttle, DoubleSupplier slide, DoubleSupplier rotation, boolean useFOD, int joystickType) {
     this.driveTrain = driveTrain;
     this.throttle = throttle;
     this.slide = slide;
     this.rotation = rotation;
     this.useFOD = useFOD;
+    this.joystickType = 1;
     addRequirements(this.driveTrain);
 
   }
@@ -41,11 +43,13 @@ public class DriveWithJoysticks extends CommandBase {
     // Drive the robot using driveCartesian style control
     // NOTE: The +/- for the y axis on the joystick is inverted from
     // the right-hand-rule
+    // TODO: update joystickType to get value from dashboard
     driveTrain.driveWithJoysticks(
         -throttle.getAsDouble(),
         slide.getAsDouble(),
         rotation.getAsDouble(),
-        useFOD);
+        useFOD,
+        1);
   }
   
 
@@ -53,7 +57,7 @@ public class DriveWithJoysticks extends CommandBase {
   @Override
   public void end(boolean interrupted) {
     //set joystick inputs to 0 for safety
-    driveTrain.driveWithJoysticks(0.0, 0.0, 0.0, true);
+    driveTrain.driveWithJoysticks(0.0, 0.0, 0.0, true,1);
   }
 
   // Returns true when the command should end.
