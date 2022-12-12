@@ -49,7 +49,8 @@ public class RobotContainer {
           () -> driverJoystick.getLeftY(),
           () -> driverJoystick.getLeftX(),
           () -> driverJoystick.getRightX(),
-          false);
+          false,
+          1);
 
     private final DriveWithJoysticks driveWithJoysticksFOD 
       = new DriveWithJoysticks(
