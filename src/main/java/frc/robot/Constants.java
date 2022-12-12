@@ -103,6 +103,14 @@ public final class Constants {
     public final static double WIDTH = 27 * Math.INCHES_2_METERS;
     /** Length of the robot in meters */
     public final static double LENGTH = 32.3 * Math.INCHES_2_METERS; 
+
+    /* Wheel locations relative to robot center */
+
+    Translation2d leftFrontWheel = new Translation2d(0.381, 0.381);
+    Translation2d rightFrontWheel = new Translation2d(0.381, -0.381);
+    Translation2d leftRearWheel = new Translation2d(-0.381, 0.381);
+    Translation2d rightRearWheel = new Translation2d(-0.381, -0.381);
+    
   }
   
   /** Configuration options, PID constants, and CAN Bus ID's for {@link frc.robot.subsystems.Drivetrain Drivetrain} subsystem */
