@@ -19,7 +19,9 @@ import edu.wpi.first.math.kinematics.MecanumDriveKinematics;
  */
 public final class Constants {
 
-
+  public final static class AutoConstants{
+    public static final double AUTO_SPEED = 0.5;
+  }
 
   //Controller constants
   public final static class Controllers{

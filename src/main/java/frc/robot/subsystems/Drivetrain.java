@@ -38,6 +38,7 @@ import edu.wpi.first.math.kinematics.MecanumDriveWheelPositions;
 public class Drivetrain extends SubsystemBase {
 
 
+
   //drivetrain speed controllers   
   CANSparkMax leftFrontMotor;
   CANSparkMax rightFrontMotor;
@@ -186,12 +187,7 @@ public class Drivetrain extends SubsystemBase {
       }
     }
   
-    public void rotateToDegree(double desiredAngle) {
-      double currentAngle;
 
-      
-
-    }
     /**
     * Sets the drive motors to brake mode
     * @see #setCoast

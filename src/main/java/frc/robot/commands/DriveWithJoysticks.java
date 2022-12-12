@@ -17,7 +17,7 @@ public class DriveWithJoysticks extends CommandBase {
   private DoubleSupplier rotation;
   private boolean useFOD;
   private int joystickType;
-  //private enum driverController;
+
 
   
   /** Creates a new DriveWithJoysticks. */
