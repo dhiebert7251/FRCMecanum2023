@@ -14,7 +14,6 @@ import edu.wpi.first.wpilibj.drive.MecanumDrive;
 //SparkMAX libraries
 import com.revrobotics.CANSparkMax;
 import com.revrobotics.CANSparkMax.IdleMode;
-import com.revrobotics.CANSparkMax.IdleMode.*;
 import com.revrobotics.CANSparkMaxLowLevel.MotorType;
 import com.revrobotics.SparkMaxRelativeEncoder;
 import com.revrobotics.RelativeEncoder;
@@ -165,16 +164,28 @@ public class Drivetrain extends SubsystemBase {
     * @param rotation rotational speed (clockwise is positive) [-1.0, 1.0]
     * @param useFOD use Field Oriented Driving
     */ 
-    public void driveWithJoysticks(double throttle, double slide, double rotation, boolean useFOD) { 
+    public void driveWithJoysticks(double throttle, double slide, double rotation, boolean useFOD, int joystickType) { 
       if (useFOD) {
-        drive.driveCartesian(throttle, slide, rotation, getGyroRotation());
-      } 
+        if (joystickType==1){
+          drive.driveCartesian(throttle, slide, rotation, getGyroRotation());
+        }
+        else
+        {
+          //update rotation for joystick mod
+        } 
+      }
       else 
       {
+        if (joystickType==2){
         drive.driveCartesian(throttle, slide, rotation);
+        }
+        else
+        {
+          //update rotation for joystick mod
+        }
       }
     }
-
+  
     public void rotateToDegree(double desiredAngle) {
       double currentAngle;
 
