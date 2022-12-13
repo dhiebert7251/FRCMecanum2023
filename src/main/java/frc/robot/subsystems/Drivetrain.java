@@ -64,19 +64,15 @@ public class Drivetrain extends SubsystemBase {
 
       //Motors
       leftFrontMotor = new CANSparkMax(Constants.DriveConstants.LEFT_FRONT_MOTOR, MotorType.kBrushless);
-      leftFrontMotor.restoreFactoryDefaults();
       leftFrontMotor.setInverted(Constants.DriveConstants.LEFT_FRONT_INVERTED);
       //leftFrontMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
       leftRearMotor = new CANSparkMax(Constants.DriveConstants.LEFT_REAR_MOTOR, MotorType.kBrushless);
-      leftRearMotor.restoreFactoryDefaults();
       leftRearMotor.setInverted(Constants.DriveConstants.LEFT_REAR_INVERTED);
       //leftRearMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
       rightFrontMotor = new CANSparkMax(Constants.DriveConstants.RIGHT_FRONT_MOTOR, MotorType.kBrushless);
-      rightFrontMotor.restoreFactoryDefaults();
       rightFrontMotor.setInverted(Constants.DriveConstants.RIGHT_FRONT_INVERTED);
       //rightFrontMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
       rightRearMotor = new CANSparkMax(Constants.DriveConstants.RIGHT_REAR_MOTOR, MotorType.kBrushless);
-      rightRearMotor.restoreFactoryDefaults();
       rightRearMotor.setInverted(Constants.DriveConstants.RIGHT_REAR_INVERTED);
       //rightRearMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
     
