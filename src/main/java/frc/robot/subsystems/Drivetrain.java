@@ -10,7 +10,8 @@ import frc.robot.Constants;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj.drive.MecanumDrive;
-//import edu.wpi.first.wpilibj.interfaces.;
+import edu.wpi.first.wpilibj.motorcontrol.MotorController;
+
 
 //SparkMAX libraries
 import com.revrobotics.CANSparkMax;
@@ -65,16 +66,16 @@ public class Drivetrain extends SubsystemBase {
 
       //Motors
       leftFrontMotor = new CANSparkMax(Constants.DriveConstants.LEFT_FRONT_MOTOR, MotorType.kBrushless);
-      leftFrontMotor.setInverted(Constants.DriveConstants.LEFT_FRONT_INVERTED);
+      //leftFrontMotor.setInverted(Constants.DriveConstants.LEFT_FRONT_INVERTED);
       //leftFrontMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
       leftRearMotor = new CANSparkMax(Constants.DriveConstants.LEFT_REAR_MOTOR, MotorType.kBrushless);
-      leftRearMotor.setInverted(Constants.DriveConstants.LEFT_REAR_INVERTED);
+      //leftRearMotor.setInverted(Constants.DriveConstants.LEFT_REAR_INVERTED);
       //leftRearMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
       rightFrontMotor = new CANSparkMax(Constants.DriveConstants.RIGHT_FRONT_MOTOR, MotorType.kBrushless);
-      rightFrontMotor.setInverted(Constants.DriveConstants.RIGHT_FRONT_INVERTED);
+      //rightFrontMotor.setInverted(Constants.DriveConstants.RIGHT_FRONT_INVERTED);
       //rightFrontMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
       rightRearMotor = new CANSparkMax(Constants.DriveConstants.RIGHT_REAR_MOTOR, MotorType.kBrushless);
-      rightRearMotor.setInverted(Constants.DriveConstants.RIGHT_REAR_INVERTED);
+      //rightRearMotor.setInverted(Constants.DriveConstants.RIGHT_REAR_INVERTED);
       //rightRearMotor.getEncoder(Type.kHallSensor,DriveConstants.kEncoderCPR);
     
       //mecanum drivetrain
